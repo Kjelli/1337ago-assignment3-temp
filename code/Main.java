@@ -1,13 +1,11 @@
 package assignment3;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.nio.file.*;
+import java.util.*;
+
 
 public class Main {
 
@@ -42,8 +40,6 @@ public class Main {
 	}
 	private static void printLines(int nrOfLines) throws IOException{
 		String[] lines = readFile("csiro-corpus/CSIRO000", StandardCharsets.UTF_8).split(System.getProperty("line.separator"));
-		ArrayList<Document> docs = new ArrayList<Document>();
-		int index = -1;
 		for(int i=0; i<nrOfLines; i++){
 			System.out.println(lines[i]);
 		}
