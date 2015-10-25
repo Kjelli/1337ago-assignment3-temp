@@ -1,5 +1,13 @@
 package processing;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * TODO To be implemented.
  * 
@@ -10,7 +18,40 @@ package processing;
  *         stopword removal process should be identical in both cases.
  *
  */
-public abstract class TermProcessor {
+public class TermProcessor {
+
+	private static TermProcessor instance = null;
+
+	private static String stopwordsFilePath = "stopwords/list.txt";
+	private Map<String, Boolean> stopwords;
+
+	private TermProcessor() {
+		// Disallow construction of this class in other contexts.
+
+		populateStopwords();
+	}
+
+	/**
+	 * Populate the stopword map.
+	 */
+	private void populateStopwords() {
+		try {
+			FileReader read = new FileReader(new File(stopwordsFilePath));
+			BufferedReader br = new BufferedReader(read);
+
+			stopwords = new HashMap<String, Boolean>();
+
+			String line;
+			while ((line = br.readLine()) != null) {
+				stopwords.put(line, true);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Processes a single term. Returns a (stemmed) term, or empty string if
@@ -23,9 +64,15 @@ public abstract class TermProcessor {
 
 	public String process(String term) {
 		String result = null;
-		/*
-		 * TODO replace string with stemmed term, or empty string if stopword
-		 */
+		
+		term = term.toLowerCase();
+
+		if (isStopWord(term)) {
+			result = "";
+		} else {
+			result = PorterStemmer.getInstance().stemTerm(term);
+		}
+
 		return result;
 	}
 
@@ -38,11 +85,13 @@ public abstract class TermProcessor {
 	 */
 
 	public boolean isStopWord(String term) {
-		boolean result = false;
-		/*
-		 * TODO check if the term is stopword. (hint: maybe read in list of
-		 * stopwords and store them in memory)
-		 */
-		return result;
+		return stopwords.get(term) != null;
+	}
+
+	public static TermProcessor getInstance() {
+		if (instance == null) {
+			instance = new TermProcessor();
+		}
+		return instance;
 	}
 }
