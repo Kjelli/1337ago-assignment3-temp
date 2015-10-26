@@ -2,38 +2,39 @@ package documents;
 
 import java.util.ArrayList;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.parser.Parser;
-import org.jsoup.Jsoup;
-
 /**
  * TODO To be implemented
  * @author Fredrik Wæhre Severinsen
  */
 public class UnprocessedDocument {
 	String name;
-	ArrayList<String> rawHtml;
-	String body;
+	ArrayList<String> lineArrayHTML;
+	String rawHTML;
 	
 	public UnprocessedDocument(String name){
 		this.name = name;
-		body = "";
-		rawHtml = new ArrayList<String>();
+		rawHTML = "";
+		lineArrayHTML = new ArrayList<String>();
 	}
 	
 	public void addLine(String line){
-		rawHtml.add(line);
+		lineArrayHTML.add(line);
 	}
 	
-	public String buildBodyText(){
+	public void buildHtmlString(){
 		StringBuilder sb = new StringBuilder();
-		for(int i=0; i<rawHtml.size();i++){
-			sb.append(rawHtml.get(i));
+		for(int i=0; i<lineArrayHTML.size();i++){
+			sb.append(lineArrayHTML.get(i));
 		}
-		Document jdoc = Jsoup.parse(new String(sb));
-		body = jdoc.body().text();
-		//System.out.println(body);
-		return body;
+		rawHTML = new String(sb);
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public String getRawHTML() {
+		return rawHTML;
 	}
 }
 

@@ -30,7 +30,6 @@ public class DocumentReader {
 			if(nxl.equalsIgnoreCase("<DOC>")){
 				String unTrimmedHeader = scan.nextLine();
 				docs.add(new UnprocessedDocument(unTrimmedHeader));
-				//System.out.println("created new doc with header: "+ unTrimmedHeader);
 				index++;
 			}
 			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
@@ -38,8 +37,7 @@ public class DocumentReader {
 			}
 			else if(nxl.equalsIgnoreCase("</DOC>")){
 				htmlFlag = false;
-				System.out.println("Doc completed");
-				docs.get(index).buildBodyText();
+				docs.get(index).buildHtmlString();
 			}
 			if(htmlFlag){
 				docs.get(index).addLine(nxl);
