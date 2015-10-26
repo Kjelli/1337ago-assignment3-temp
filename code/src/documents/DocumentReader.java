@@ -29,7 +29,6 @@ public class DocumentReader {
 				String unTrimmedHeader = scan.nextLine();
 				docs.add(new UnprocessedDocument(trimName(unTrimmedHeader)));
 				index++;
-				System.out.println(docs.get(index).getName()); 
 			}
 			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
 				htmlFlag = true;
