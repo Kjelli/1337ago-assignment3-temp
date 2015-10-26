@@ -27,8 +27,9 @@ public class DocumentReader {
 
 			if(nxl.equalsIgnoreCase("<DOC>")){
 				String unTrimmedHeader = scan.nextLine();
-				docs.add(new UnprocessedDocument(unTrimmedHeader));
+				docs.add(new UnprocessedDocument(trimName(unTrimmedHeader)));
 				index++;
+				System.out.println(docs.get(index).getName()); 
 			}
 			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
 				htmlFlag = true;
@@ -42,5 +43,9 @@ public class DocumentReader {
 			}
 		}
 		return docs;
+	}
+	private String trimName(String name){
+		return name.replaceAll("<DOCNO>", "").replaceAll("</DOCNO>", "");
+		
 	}
 }
