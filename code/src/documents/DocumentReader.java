@@ -8,13 +8,11 @@ import java.util.Scanner;
 
 public class DocumentReader {
 	Scanner scan;
-	File file;
 
 	public DocumentReader(){
 	}
 
-	public ArrayList<UnprocessedDocument> readFile(String path){
-		file = new File(path);
+	public ArrayList<UnprocessedDocument> readFile(File file){
 		try {
 			scan = new Scanner(file);
 		} catch (FileNotFoundException e) {
