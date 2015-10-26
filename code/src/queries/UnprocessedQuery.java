@@ -1,10 +1,8 @@
 package queries;
-
-/**
- * TODO To be implemented
- * @author Kjell Arne Hellum
- *
- */
+		
 public class UnprocessedQuery {
-
+	public String queries;
+	public UnprocessedQuery(){
+		queries = "";
+	}
 }

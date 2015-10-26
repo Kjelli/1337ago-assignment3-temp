@@ -1,10 +1,9 @@
 package queries;
 
-/**
- * TODO To be implemented
- * @author Kjell Arne Hellum
- *
- */
 public class Query {
-
+	public String[] terms;
+	public int id;
+	public Query(int n){
+		terms = new String[n];
+	}
 }
