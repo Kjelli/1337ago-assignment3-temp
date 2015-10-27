@@ -1,13 +1,12 @@
 	package queries;
 
-import java.util.Arrays;
-
 public class QueryProcessor {
 	private static String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+| ";
 	public QueryProcessor(){};
-	TermProcessor termProc = TermProcessor.getInstance();
+	
 	//makes the unprocessed query into a processed one
 	public static Query process(UnprocessedQuery rawQuery){
+		TermProcessor termProc = TermProcessor.getInstance();
 		String[] terms = rawQuery.queries.split(regex);
 		Query query = new Query();
 		for (int i = 0; i < terms.length-1; i++){
