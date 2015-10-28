@@ -1,6 +1,5 @@
 package documents;
 
-import java.util.ArrayList;
 
 /**
  * 
@@ -8,24 +7,20 @@ import java.util.ArrayList;
  */
 public class UnprocessedDocument {
 	String name;
-	ArrayList<String> lineArrayHTML;
+	StringBuilder sb;
 	String rawHTML;
 	
 	public UnprocessedDocument(String name){
 		this.name = name;
 		rawHTML = "";
-		lineArrayHTML = new ArrayList<String>();
+		sb = new StringBuilder();
 	}
 	
 	public void addLine(String line){
-		lineArrayHTML.add(line);
+		sb.append(line);
 	}
 	
 	public void buildHtmlString(){
-		StringBuilder sb = new StringBuilder();
-		for(int i=0; i<lineArrayHTML.size();i++){
-			sb.append(lineArrayHTML.get(i));
-		}
 		rawHTML = new String(sb);
 	}
 
