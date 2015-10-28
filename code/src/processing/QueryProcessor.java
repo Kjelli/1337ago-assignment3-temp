@@ -1,4 +1,6 @@
-	package queries;
+package queries;
+import queries.UnprocessedQuery;
+import queries.Query;
 
 public class QueryProcessor {
 	private static String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+| ";
