@@ -31,6 +31,7 @@ public class DocumentReader {
 				index++;
 			}
 			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
+				nxl = scan.next();
 				htmlFlag = true;
 			}
 			else if(nxl.equalsIgnoreCase("</DOC>")){
