@@ -3,7 +3,7 @@ package documents;
 import java.util.ArrayList;
 
 /**
- * TODO To be implemented
+ * 
  * @author Fredrik Wæhre Severinsen
  */
 public class UnprocessedDocument {
@@ -35,6 +35,9 @@ public class UnprocessedDocument {
 	
 	public String getRawHTML() {
 		return rawHTML;
+	}
+	public void setRawHTML(String html){
+		rawHTML = html;
 	}
 }
 

@@ -24,8 +24,8 @@ public class DocumentProcessorTest {
 		try {
 			String html = new String(Files.readAllBytes(Paths
 					.get("bitesize/sample000.html")), StandardCharsets.UTF_8);
-			updoc = new UnprocessedDocument("sample", html);
-
+			updoc = new UnprocessedDocument("sample");
+			updoc.setRawHTML(html);
 			doc = DocumentProcessor.process(updoc);
 		} catch (IOException e) {
 			throw new AssertionError(

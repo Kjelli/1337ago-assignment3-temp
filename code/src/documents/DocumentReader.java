@@ -26,8 +26,8 @@ public class DocumentReader {
 			String nxl = scan.nextLine();
 
 			if(nxl.equalsIgnoreCase("<DOC>")){
-				String unTrimmedHeader = scan.nextLine();
-				docs.add(new UnprocessedDocument(trimName(unTrimmedHeader)));
+				String unTrimmedName = scan.nextLine();
+				docs.add(new UnprocessedDocument(trimName(unTrimmedName)));
 				index++;
 			}
 			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
