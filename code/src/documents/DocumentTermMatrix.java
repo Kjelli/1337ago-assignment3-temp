@@ -56,12 +56,12 @@ public class DocumentTermMatrix {
 		return Math.log10(documentCount / cumTermCount);
 	}
 
-	public Map<String, Map<String, Double>> generateTFIDFMap() {
-		Map<String, Map<String, Double>> tfidfMap = new HashMap<String, Map<String, Double>>();
+	public Map<Document, Map<String, Double>> generateTFIDFMap() {
+		Map<Document, Map<String, Double>> tfidfMap = new HashMap<Document, Map<String, Double>>();
 		for (Document d : getDocuments()) {
-			tfidfMap.put(d.getName(), new HashMap<String, Double>());
+			tfidfMap.put(d, new HashMap<String, Double>());
 			for (String t : getVocabulary()) {
-				tfidfMap.get(d.getName()).put(t, tf(d, t) * idf(t));
+				tfidfMap.get(d).put(t, tf(d, t) * idf(t));
 			}
 		}
 		return tfidfMap;
