@@ -1,11 +1,11 @@
 package processing;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CoSim {
 	public CoSim(){
 	}
-	public double calcSim(ArrayList<Double> a, ArrayList<Double> b){
+	public double similarity(List<Double> a, List<Double> b){
 		double dotp=0, maga=0, magb=0;
 		for(int i=0;i<a.size();i++){
 			dotp+=a.get(i)*b.get(i);
