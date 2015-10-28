@@ -13,10 +13,12 @@ import java.util.Map;
 public class Document {
 	private final String name;
 	private final Map<String, Integer> occurences;
+	private final int wordCount;
 
-	public Document(String name, Map<String, Integer> occurences) {
+	public Document(String name, Map<String, Integer> occurences, int wordCount) {
 		this.name = name;
 		this.occurences = occurences;
+		this.wordCount = wordCount;
 	}
 
 	public String getName() {
@@ -25,5 +27,9 @@ public class Document {
 
 	public Map<String, Integer> getOccurences() {
 		return occurences;
+	}
+	
+	public int getWordCount() {
+		return wordCount;
 	}
 }

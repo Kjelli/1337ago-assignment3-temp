@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jsoup.Jsoup;
 
@@ -40,8 +41,14 @@ public class DocumentProcessor {
 		}
 
 		Map<String, Integer> termFrequencyMap = generateMap(processedTerms);
+		
+		int wordCount = 0;
+		for(Entry<String, Integer> entry : termFrequencyMap.entrySet()){
+			wordCount += entry.getValue();
+		}
+		
 		if (termFrequencyMap != null) {
-			result = new Document(updoc.getName(), termFrequencyMap);
+			result = new Document(updoc.getName(), termFrequencyMap, wordCount);
 		}
 		return result;
 	}

@@ -22,7 +22,7 @@ public class SimpleDocumentTest {
 		occurences.put("Hello", 1);
 		occurences.put("World", 1);
 
-		d = new Document(name, occurences);
+		d = new Document(name, occurences, 2);
 
 		/*
 		 * Test if not null
