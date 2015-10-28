@@ -1,4 +1,4 @@
-package queries;
+package processing;
 import queries.UnprocessedQuery;
 import queries.Query;
 
