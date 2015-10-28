@@ -59,7 +59,10 @@ public class DocumentTermMatrix {
 	public TFIDFDocumentTermMatrix generateTFIDFMap() {
 		Map<Document, Map<String, Double>> tfidfMap = new HashMap<Document, Map<String, Double>>();
 		Map<String, Double> IDFMap = new HashMap<String, Double>();
+		
+		int count = 0;
 		for (Document d : getDocuments()) {
+			System.out.println(d + String.format(" (%.2f%%)", (++count)*100f/matrix.size()));
 			tfidfMap.put(d, new HashMap<String, Double>());
 			for (String t : getVocabulary()) {
 				double idfValue = idf(t);

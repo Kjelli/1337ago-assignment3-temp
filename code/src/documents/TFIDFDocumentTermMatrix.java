@@ -2,11 +2,14 @@ package documents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import processing.DocumentQueryResult;
 import queries.Query;
 import similarity.SimilarityStrategy;
+import utils.MapUtils;
 
 public class TFIDFDocumentTermMatrix {
 	private final Map<Document, Map<String, Double>> matrix;
@@ -36,24 +39,58 @@ public class TFIDFDocumentTermMatrix {
 		return IDFMap;
 	}
 
-	public Map<Document, Double> runQuery(Query q,
+	public DocumentQueryResult runQuery(Query q,
 			SimilarityStrategy<Double> strat) {
+		
 		ArrayList<Double> weightedQueryVector = new ArrayList<>();
 		ArrayList<Double> weightedDocumentVector = new ArrayList<>();
 		Map<Document, Double> similarityMap = new HashMap<>();
+		
+		// System.out.println("\n\n###\n\n");
+		// for (String t : q.terms) {
+		// System.out.println(t);
+		// }
+		// System.out.println("\n\n###\n\n");
 		for (Document d : getDocuments()) {
+
 			weightedQueryVector.clear();
 			weightedDocumentVector.clear();
+
 			for (String term : vocabulary) {
-				weightedQueryVector.add(IDFMap.get(term) * q.tf(term));
-				weightedDocumentVector.add(matrix.get(d).get(term));
+				double queryValue = IDFMap.get(term) * q.tf(term);
+				weightedQueryVector.add(queryValue);
+
+				double documentValue = matrix.get(d).get(term);
+				weightedDocumentVector.add(documentValue);
 			}
 
-			similarityMap.put(d, strat.similarity(weightedQueryVector,
-					weightedDocumentVector));
+			double similarity = strat.similarity(weightedQueryVector,
+					weightedDocumentVector);
+			// Add results with any relevance above 0.
+			if (similarity > 0.0f) {
+				similarityMap.put(d, similarity);
+			}
 
 		}
-		return similarityMap;
+
+		similarityMap = MapUtils.sort(similarityMap, false);
+		// Get top 50 values;
+		int trim = 50;
+		int omitted = 0;
+		for(Iterator<Double> it = similarityMap.values().iterator(); it.hasNext();){
+			if(trim == 0){
+				it.next();
+				it.remove();
+				omitted++;
+			}else{
+				it.next();
+				trim--;
+			}
+		}
+		DocumentQueryResult result = new DocumentQueryResult(q.id,
+				similarityMap, omitted);
+
+		return result;
 
 	}
 }

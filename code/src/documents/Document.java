@@ -32,4 +32,9 @@ public class Document {
 	public int getWordCount() {
 		return wordCount;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

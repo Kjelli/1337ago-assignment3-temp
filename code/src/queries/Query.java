@@ -17,6 +17,16 @@ public class Query {
 				count++;
 			}
 		}
-		return count/terms.size();
+		double result = count/terms.size();
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(String s : terms){
+			sb.append(s+ " ");
+		}
+		return sb.toString();
 	}
 }
