@@ -8,7 +8,7 @@ public class QueryProcessor {
 	public QueryProcessor(){};
 
 	// makes the unprocessed query into a processed one
-	public static Query process(UnprocessedQuery rawQuery) {
+	public Query process(UnprocessedQuery rawQuery) {
 		TermProcessor termProc = TermProcessor.getInstance();
 		String[] terms = rawQuery.queries.split(regex);
 		String tempTerm;

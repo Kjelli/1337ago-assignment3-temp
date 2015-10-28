@@ -5,7 +5,7 @@ package queries;
 		
 public class QueryReader {
 	public QueryReader(){};
-	public static List<UnprocessedQuery> readQuery(File file)throws FileNotFoundException{
+	public List<UnprocessedQuery> readQuery(File file)throws FileNotFoundException{
 	
 		ArrayList<UnprocessedQuery> queryList = new ArrayList<UnprocessedQuery>();
 							 
