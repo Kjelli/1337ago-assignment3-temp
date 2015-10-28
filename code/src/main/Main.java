@@ -1,9 +1,12 @@
-package documents;
+package main;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import documents.DocumentReader;
+import documents.UnprocessedDocument;
 
 public class Main {
 
