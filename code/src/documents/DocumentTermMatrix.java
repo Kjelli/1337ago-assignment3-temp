@@ -18,6 +18,12 @@ public class DocumentTermMatrix {
 		vocabulary = new HashSet<String>();
 		longestTerm = 0;
 	}
+	
+	public void addDocuments(Document...docs){
+		for(Document d : docs){
+			addDocument(d);
+		}
+	}
 
 	public void addDocument(Document doc) {
 		if (matrix.get(doc) == null) {
@@ -32,18 +38,33 @@ public class DocumentTermMatrix {
 	}
 
 	public double tf(Document doc, String term) {
-		double docFreq = doc.getOccurences().get(term);
-		double cumDocFreq = 0;
-		for (Document d : getDocuments()) {
-			cumDocFreq += d.getOccurences().get(term) == null ? 0 : d
-					.getOccurences().get(term);
-		}
-		
-		return docFreq / cumDocFreq;
+		double docFreq = doc.getOccurences().get(term) == null ? 0 : doc.getOccurences().get(term);
+		return docFreq / doc.getWordCount();
 	}
-	
-	public double idf(String term){
-		
+
+	public double idf(String term) {
+		Set<Document> documents = getDocuments();
+
+		double documentCount = documents.size();
+		double cumTermCount = 0;
+
+		for (Document doc : documents) {
+			if (doc.getOccurences().get(term) != null) {
+				cumTermCount++;
+			}
+		}
+		return Math.log10(documentCount / cumTermCount);
+	}
+
+	public Map<String, Map<String, Double>> generateTFIDFMap() {
+		Map<String, Map<String, Double>> tfidfMap = new HashMap<String, Map<String, Double>>();
+		for (Document d : getDocuments()) {
+			tfidfMap.put(d.getName(), new HashMap<String, Double>());
+			for (String t : getVocabulary()) {
+				tfidfMap.get(d.getName()).put(t, tf(d, t) * idf(t));
+			}
+		}
+		return tfidfMap;
 	}
 
 	public Set<String> getVocabulary() {
@@ -86,6 +107,11 @@ public class DocumentTermMatrix {
 		}
 
 		return sb.toString();
+	}
+
+	public void clear() {
+		vocabulary.clear();
+		matrix.clear();
 	}
 
 }

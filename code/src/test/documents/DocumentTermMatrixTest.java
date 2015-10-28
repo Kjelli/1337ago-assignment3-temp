@@ -1,12 +1,16 @@
 package test.documents;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import processing.DocumentProcessor;
@@ -17,11 +21,12 @@ import documents.UnprocessedDocument;
 
 public class DocumentTermMatrixTest {
 
-	DocumentTermMatrix matrix;
-	List<Document> documents;
+	static DocumentTermMatrix matrix;
+	static List<Document> documents;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
+		System.out.println("SETUP");
 		matrix = new DocumentTermMatrix();
 
 		DocumentReader reader = new DocumentReader();
@@ -31,6 +36,11 @@ public class DocumentTermMatrixTest {
 		for (UnprocessedDocument updoc : updocs) {
 			documents.add(DocumentProcessor.process(updoc));
 		}
+	}
+
+	@Before
+	public void beforeTests() {
+		matrix.clear();
 	}
 
 	@Test
@@ -59,5 +69,37 @@ public class DocumentTermMatrixTest {
 		double tf = matrix.tf(documents.get(0), someTerm);
 		assertNotEquals(0, tf);
 
+	}
+
+	@Test
+	public void idfTest() {
+		// If order of tests runs addition and vocabulary tests first, these
+		// will already be added
+		matrix.addDocument(documents.get(0));
+		matrix.addDocument(documents.get(1));
+		matrix.addDocument(documents.get(2));
+		String someTerm = documents.get(0).getOccurences().keySet().iterator()
+				.next();
+		double idf = matrix.idf(someTerm);
+		assertNotEquals(0.0f, idf);
+
+	}
+
+	@Test
+	public void tfidfMapTest() {
+		matrix.addDocuments(documents.get(0), documents.get(1),
+				documents.get(2));
+
+		Map<String, Map<String, Double>> tfidfMap = matrix.generateTFIDFMap();
+
+		for (Entry<String, Map<String, Double>> docEntries : tfidfMap
+				.entrySet()) {
+			System.out.println("Doc: " + docEntries.getKey());
+			for (Entry<String, Double> entry2 : docEntries.getValue()
+					.entrySet()) {
+				// Not sure what to test for in this case. None of the cases are
+				// known, therefore no expectations
+			}
+		}
 	}
 }
