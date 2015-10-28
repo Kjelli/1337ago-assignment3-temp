@@ -64,7 +64,7 @@ public class DocumentTermMatrix {
 				tfidfMap.get(d).put(t, tf(d, t) * idf(t));
 			}
 		}
-		return new TFIDFDocumentTermMatrix(tfidfMap);
+		return new TFIDFDocumentTermMatrix(tfidfMap, vocabulary);
 	}
 
 	public Set<String> getVocabulary() {

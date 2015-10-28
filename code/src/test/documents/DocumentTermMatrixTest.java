@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +15,7 @@ import processing.DocumentProcessor;
 import documents.Document;
 import documents.DocumentReader;
 import documents.DocumentTermMatrix;
+import documents.TFIDFDocumentTermMatrix;
 import documents.UnprocessedDocument;
 
 public class DocumentTermMatrixTest {
@@ -90,16 +89,8 @@ public class DocumentTermMatrixTest {
 		matrix.addDocuments(documents.get(0), documents.get(1),
 				documents.get(2));
 
-		Map<String, Map<String, Double>> tfidfMap = matrix.generateTFIDFMap();
+		TFIDFDocumentTermMatrix tfidfMap = matrix.generateTFIDFMap();
 
-		for (Entry<String, Map<String, Double>> docEntries : tfidfMap
-				.entrySet()) {
-			System.out.println("Doc: " + docEntries.getKey());
-			for (Entry<String, Double> entry2 : docEntries.getValue()
-					.entrySet()) {
-				// Not sure what to test for in this case. None of the cases are
-				// known, therefore no expectations
-			}
-		}
+		// TODO figure what to test.
 	}
 }
