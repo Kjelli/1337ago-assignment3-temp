@@ -1,10 +1,12 @@
 package documents;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import queries.Query;
+import similarity.SimilarityStrategy;
 
 public class TFIDFDocumentTermMatrix {
 	private final Map<Document, Map<String, Double>> matrix;
@@ -26,17 +28,32 @@ public class TFIDFDocumentTermMatrix {
 		return vocabulary;
 	}
 
+	public Set<Document> getDocuments() {
+		return matrix.keySet();
+	}
+
 	public Map<String, Double> getIDFMap() {
 		return IDFMap;
 	}
 
-	public void runQuery(Query q) {
+	public Map<Document, Double> runQuery(Query q,
+			SimilarityStrategy<Double> strat) {
 		ArrayList<Double> weightedQueryVector = new ArrayList<>();
 		ArrayList<Double> weightedDocumentVector = new ArrayList<>();
+		Map<Document, Double> similarityMap = new HashMap<>();
+		for (Document d : getDocuments()) {
+			weightedQueryVector.clear();
+			weightedDocumentVector.clear();
+			for (String term : vocabulary) {
+				weightedQueryVector.add(IDFMap.get(term) * q.tf(term));
+				weightedDocumentVector.add(matrix.get(d).get(term));
+			}
 
-		for (String qTerm : q.terms) {
-			weightedQueryVector.add(IDFMap.get(qTerm) * q.tf(qTerm));
+			similarityMap.put(d, strat.similarity(weightedQueryVector,
+					weightedDocumentVector));
+
 		}
+		return similarityMap;
 
 	}
 }
