@@ -58,13 +58,16 @@ public class DocumentTermMatrix {
 
 	public TFIDFDocumentTermMatrix generateTFIDFMap() {
 		Map<Document, Map<String, Double>> tfidfMap = new HashMap<Document, Map<String, Double>>();
+		Map<String, Double> IDFMap = new HashMap<String, Double>();
 		for (Document d : getDocuments()) {
 			tfidfMap.put(d, new HashMap<String, Double>());
 			for (String t : getVocabulary()) {
+				double idfValue = idf(t);
+				IDFMap.put(t, idfValue);
 				tfidfMap.get(d).put(t, tf(d, t) * idf(t));
 			}
 		}
-		return new TFIDFDocumentTermMatrix(tfidfMap, vocabulary);
+		return new TFIDFDocumentTermMatrix(tfidfMap, IDFMap, vocabulary);
 	}
 
 	public Set<String> getVocabulary() {
