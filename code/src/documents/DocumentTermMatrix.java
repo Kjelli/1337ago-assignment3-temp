@@ -56,7 +56,7 @@ public class DocumentTermMatrix {
 		return Math.log10(documentCount / cumTermCount);
 	}
 
-	public Map<Document, Map<String, Double>> generateTFIDFMap() {
+	public TFIDFDocumentTermMatrix generateTFIDFMap() {
 		Map<Document, Map<String, Double>> tfidfMap = new HashMap<Document, Map<String, Double>>();
 		for (Document d : getDocuments()) {
 			tfidfMap.put(d, new HashMap<String, Double>());
@@ -64,7 +64,7 @@ public class DocumentTermMatrix {
 				tfidfMap.get(d).put(t, tf(d, t) * idf(t));
 			}
 		}
-		return tfidfMap;
+		return new TFIDFDocumentTermMatrix(tfidfMap);
 	}
 
 	public Set<String> getVocabulary() {
