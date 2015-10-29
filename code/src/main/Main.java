@@ -42,13 +42,14 @@ public class Main {
 		}
 
 		File[] files = new File("E:/csiro_corpus/csiro-corpus").listFiles();
+
 		DocumentReader r = new DocumentReader();
 		DocumentTermMatrix dtm = new DocumentTermMatrix();
 
 		// Read files and process docs
 		System.out.println("Reading file and processing docs");
-		int maxDocuments = 10;
-		int docCounter = 0;
+		//int maxDocuments = 10;
+		//int docCounter = 0;
 		int maxDotsInLine = 5;
 		int dotCounter = 0;
 		int fileCounter = 0;
@@ -61,7 +62,6 @@ public class Main {
 				dotCounter = 0;
 			}
 			ArrayList<UnprocessedDocument> docs = r.readFile(file);
-			docCounter = 0;
 			for (UnprocessedDocument unDoc : docs) {
 				Document doc = DocumentProcessor.process(unDoc);
 				if (doc != null) {
@@ -70,6 +70,7 @@ public class Main {
 //				if (docCounter++ >= maxDocuments) {
 //					break;
 //				}
+
 			}
 		}
 		System.out.println("\n\n Done reading and processing documents.");
@@ -86,7 +87,7 @@ public class Main {
 			out = new PrintWriter(new BufferedWriter(new FileWriter(
 					"output/results("
 							+ new Date().toString().toLowerCase()
-									.replace(' ', '_').replace(':', '-')
+							.replace(' ', '_').replace(':', '-')
 							+ ").txt", true)));
 		} catch (IOException io) {
 			io.printStackTrace();
