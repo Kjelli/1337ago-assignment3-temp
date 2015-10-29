@@ -41,8 +41,7 @@ public class Main {
 			queries.add(temp);
 		}
 
-		File[] files = new File("bitesize/").listFiles();
-
+		File[] files = new File("E:/csiro_corpus/csiro-corpus").listFiles();
 		DocumentReader r = new DocumentReader();
 		DocumentTermMatrix dtm = new DocumentTermMatrix();
 
@@ -65,10 +64,12 @@ public class Main {
 			docCounter = 0;
 			for (UnprocessedDocument unDoc : docs) {
 				Document doc = DocumentProcessor.process(unDoc);
-				dtm.addDocument(doc);
-				if (docCounter++ >= maxDocuments) {
-					break;
+				if (doc != null) {
+					dtm.addDocument(doc);
 				}
+//				if (docCounter++ >= maxDocuments) {
+//					break;
+//				}
 			}
 		}
 		System.out.println("\n\n Done reading and processing documents.");

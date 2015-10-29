@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 import documents.Document;
 import documents.UnprocessedDocument;
@@ -27,9 +28,11 @@ public class DocumentProcessor {
 		Document result = null;
 
 		TermProcessor termproc = TermProcessor.getInstance();
-
-		String[] unprocessedTerms = Jsoup.parse(updoc.getRawHTML()).body()
-				.text().split(regex);
+		Element body = Jsoup.parse(updoc.getRawHTML()).body();
+		if (body == null) {
+			return null;
+		}
+		String[] unprocessedTerms = body.text().split(regex);
 
 		List<String> processedTerms = new ArrayList<>();
 
@@ -41,12 +44,16 @@ public class DocumentProcessor {
 		}
 
 		Map<String, Integer> termFrequencyMap = generateMap(processedTerms);
-		
-		int wordCount = 0;
-		for(Entry<String, Integer> entry : termFrequencyMap.entrySet()){
-			wordCount += entry.getValue();
+
+		if(termFrequencyMap == null){
+			return null;
 		}
 		
+		int wordCount = 0;
+		for (Entry<String, Integer> entry : termFrequencyMap.entrySet()) {
+			wordCount += entry.getValue();
+		}
+
 		if (termFrequencyMap != null) {
 			result = new Document(updoc.getName(), termFrequencyMap, wordCount);
 		}
