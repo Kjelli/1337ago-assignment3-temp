@@ -26,7 +26,7 @@ public class DocumentProcessorTest {
 					.get("bitesize/sample000.html")), StandardCharsets.UTF_8);
 			updoc = new UnprocessedDocument("sample");
 			updoc.setRawHTML(html);
-			doc = DocumentProcessor.process(updoc);
+			doc = DocumentProcessor.getInstance().process(updoc);
 		} catch (IOException e) {
 			throw new AssertionError(
 					"Test failed; could not read sample html file");

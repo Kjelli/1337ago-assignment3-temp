@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,6 +21,8 @@ import processing.*;
 import queries.*;
 import similarity.CosineSimilarity;
 import similarity.SimilarityStrategy;
+import whitelist.QueryWhitelist;
+import whitelist.Whitelist;
 
 public class Main {
 
@@ -36,25 +39,35 @@ public class Main {
 				"data/queries.xml"));
 		List<Query> queries = new ArrayList<Query>();
 
+		QueryVocabulary vocabulary = new QueryVocabulary();
+
 		for (UnprocessedQuery rawQuery : rawQueries) {
 			Query temp = queryProc.process(rawQuery);
 			queries.add(temp);
+			vocabulary.addQueryTerms(temp);
 		}
+
+		Whitelist whitelist = new QueryWhitelist(vocabulary);
+
+		DocumentProcessor.getInstance().setWhitelist(whitelist);
 
 		File[] files = new File("E:/csiro_corpus/csiro-corpus").listFiles();
 
 		DocumentReader r = new DocumentReader();
 		DocumentTermMatrix dtm = new DocumentTermMatrix();
-
-		// Read files and process docs
 		System.out.println("Reading file and processing docs");
-		//int maxDocuments = 10;
-		//int docCounter = 0;
+		int maxDocuments = -1;
+		int docCounter = 0;
 		int maxDotsInLine = 5;
 		int dotCounter = 0;
-		int fileCounter = 0;
+		int fileCounter = 25;
+		int maxFiles = -1;
+
+		// Read files and process docs
+		HashMap<String, Integer> documentOccurences = new HashMap<>();
+		String outputfolder = "output/preprocessed";
+
 		for (File file : files) {
-			fileCounter++;
 			System.out.print(".");
 			if (++dotCounter >= maxDotsInLine) {
 				System.out.printf("(%.2f%% complete)\n", (fileCounter * 100.0f)
@@ -62,17 +75,46 @@ public class Main {
 				dotCounter = 0;
 			}
 			ArrayList<UnprocessedDocument> docs = r.readFile(file);
+			ArrayList<Document> pDocs = new ArrayList<>();
 			for (UnprocessedDocument unDoc : docs) {
-				Document doc = DocumentProcessor.process(unDoc);
-				if (doc != null) {
-					dtm.addDocument(doc);
+				Document doc = DocumentProcessor.getInstance().process(unDoc);
+
+				for (String term : doc.getOccurences().keySet()) {
+					documentOccurences
+							.put(term,
+									(documentOccurences.get(term) != null) ? documentOccurences
+											.get(term) + 1 : 1);
 				}
-//				if (docCounter++ >= maxDocuments) {
-//					break;
-//				}
+
+				// if (doc != null) {
+				// dtm.addDocument(doc);
+				// }
+
+				pDocs.add(doc);
+				if (docCounter != -1 && docCounter++ >= maxDocuments) {
+					break;
+				}
 
 			}
+			try {
+				DocumentWriter.writeAll(pDocs, outputfolder);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+
+			if (fileCounter != -1 && ++fileCounter >= maxFiles) {
+				break;
+			}
 		}
+
+		try {
+			writeDocumentTermOccurences(documentOccurences, outputfolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+
 		System.out.println("\n\n Done reading and processing documents.");
 
 		// Calculate tf idf
@@ -87,7 +129,7 @@ public class Main {
 			out = new PrintWriter(new BufferedWriter(new FileWriter(
 					"output/results("
 							+ new Date().toString().toLowerCase()
-							.replace(' ', '_').replace(':', '-')
+									.replace(' ', '_').replace(':', '-')
 							+ ").txt", true)));
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -114,5 +156,18 @@ public class Main {
 			out.close();
 		}
 		System.out.println("\n\nCompleted at time: " + new Date());
+	}
+
+	private static void writeDocumentTermOccurences(
+			HashMap<String, Integer> documentOccurences, String outputFolder)
+			throws IOException {
+		FileWriter fw = new FileWriter(new File(outputFolder
+				+ "/document_occurence.txt"));
+		BufferedWriter writer = new BufferedWriter(fw);
+
+		for (Entry<String, Integer> entry : documentOccurences.entrySet()) {
+			writer.write(entry.getKey() + "\t" + entry.getValue() + "\r\n");
+		}
+		writer.close();
 	}
 }

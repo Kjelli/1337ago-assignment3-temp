@@ -33,7 +33,7 @@ public class DocumentTermMatrixTest {
 				"bitesize/CSIRO000"));
 		documents = new ArrayList<Document>();
 		for (UnprocessedDocument updoc : updocs) {
-			documents.add(DocumentProcessor.process(updoc));
+			documents.add(DocumentProcessor.getInstance().process(updoc));
 		}
 	}
 
