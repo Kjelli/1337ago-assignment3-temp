@@ -12,19 +12,19 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import processing.DocumentProcessor;
 import documents.Document;
-import documents.UnprocessedDocument;
+import documents.RawDocument;
 
 public class DocumentProcessorTest {
 
 	Document doc;
-	UnprocessedDocument updoc;
+	RawDocument updoc;
 
 	@Before
 	public void setUp() {
 		try {
 			String html = new String(Files.readAllBytes(Paths
 					.get("bitesize/sample000.html")), StandardCharsets.UTF_8);
-			updoc = new UnprocessedDocument("sample");
+			updoc = new RawDocument("sample");
 			updoc.setRawHTML(html);
 			doc = DocumentProcessor.getInstance().process(updoc);
 		} catch (IOException e) {
@@ -46,26 +46,26 @@ public class DocumentProcessorTest {
 
 	@Test
 	public void termFrequencyMapExistenceTest() {
-		assertNotNull("Term-frequency map should exist", doc.getOccurences());
+		assertNotNull("Term-frequency map should exist", doc.getOccurenceMap());
 	}
 
 	@Test
 	public void termFrequencyMapNotEmptyTest() {
 		assertTrue("Term-frequency map should have entries", doc
-				.getOccurences().size() > 0);
+				.getOccurenceMap().size() > 0);
 	}
 
 	@Test
 	public void termFrequencyMapStopwordTest() {
 
 		assertTrue("Term-frequency map should not contain stopwords", doc
-				.getOccurences().get("is") == null);
+				.getOccurenceMap().get("is") == null);
 	}
 
 	@Test
 	public void termFormatTest() {
 
-		for (Entry<String, Integer> entry : doc.getOccurences().entrySet()) {
+		for (Entry<String, Integer> entry : doc.getOccurenceMap().entrySet()) {
 			assertTrue("Entries im the term-frequency map should be lowercase",
 					entry.getKey().toLowerCase().equals(entry.getKey()));
 			assertTrue("Entries in the term-frequency map should not be empty",

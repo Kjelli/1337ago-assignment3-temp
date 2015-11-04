@@ -12,7 +12,7 @@ import org.jsoup.nodes.Element;
 import whitelist.NaiveWhitelist;
 import whitelist.Whitelist;
 import documents.Document;
-import documents.UnprocessedDocument;
+import documents.RawDocument;
 
 public class DocumentProcessor {
 
@@ -34,7 +34,7 @@ public class DocumentProcessor {
 	 * @return A processed Document object.
 	 */
 
-	public Document process(UnprocessedDocument updoc) {
+	public Document process(RawDocument updoc) {
 		Document result = null;
 
 		TermProcessor termproc = TermProcessor.getInstance();

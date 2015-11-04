@@ -25,16 +25,25 @@ public class Document {
 		return name;
 	}
 
-	public Map<String, Integer> getOccurences() {
-		return occurences;
+	public Integer getOccurence(String term) {
+		Integer occurence = occurences.get(term);
+		if (occurence == null) {
+			return 0;
+		} else {
+			return occurence;
+		}
 	}
-	
+
 	public int getWordCount() {
 		return wordCount;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public Map<String, Integer> getOccurenceMap() {
+		return occurences;
 	}
 }

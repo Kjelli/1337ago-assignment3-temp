@@ -5,12 +5,12 @@ package documents;
  * 
  * @author Fredrik Wæhre Severinsen
  */
-public class UnprocessedDocument {
+public class RawDocument {
 	String name;
 	StringBuilder sb;
 	String rawHTML;
 	
-	public UnprocessedDocument(String name){
+	public RawDocument(String name){
 		this.name = name;
 		rawHTML = "";
 		sb = new StringBuilder();

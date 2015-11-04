@@ -1,4 +1,4 @@
-package processing;
+package documents;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
-
-import documents.Document;
 
 public class DocumentWriter {
 
@@ -22,7 +20,7 @@ public class DocumentWriter {
 		writer.write(doc.getName() + "\r\n");
 		writer.write(doc.getWordCount() + "\r\n");
 
-		for (Entry<String, Integer> entry : doc.getOccurences().entrySet()) {
+		for (Entry<String, Integer> entry : doc.getOccurenceMap().entrySet()) {
 			writer.write(entry.getKey() + "\t" + entry.getValue() + "\r\n");
 		}
 		writer.close();
@@ -33,11 +31,11 @@ public class DocumentWriter {
 	public static void writeAll(List<Document> documents, String outputFolder)
 			throws IOException {
 		for (Document doc : documents) {
-			if (doc == null || doc.getOccurences() == null
-					|| doc.getOccurences().isEmpty()) {
+			if (doc == null || doc.getOccurenceMap() == null
+					|| doc.getOccurenceMap().isEmpty()) {
 				continue;
 			}
-			String childFolder = doc.getName().split("-")[0];
+			String childFolder = "documents/"+doc.getName().split("-")[0];
 			
 			new File(outputFolder + "/" +childFolder).mkdirs();
 			

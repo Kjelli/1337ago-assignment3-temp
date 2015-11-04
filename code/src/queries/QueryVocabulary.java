@@ -10,7 +10,7 @@ public class QueryVocabulary {
 	}
 	
 	public void addQueryTerms(Query c){
-		for(String term : c.terms){
+		for(String term : c.getTerms().keySet()){
 			vocabulary.put(term, true);
 		}
 	}

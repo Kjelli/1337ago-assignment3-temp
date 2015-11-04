@@ -1,8 +1,8 @@
 package queries;
 		
-public class UnprocessedQuery {
+public class RawQuery {
 	public String queries;
-	public UnprocessedQuery(){
+	public RawQuery(){
 		queries = "";
 	}
 }

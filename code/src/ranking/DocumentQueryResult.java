@@ -1,4 +1,4 @@
-package processing;
+package ranking;
 
 import java.util.Map;
 

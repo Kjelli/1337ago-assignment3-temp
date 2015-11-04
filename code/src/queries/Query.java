@@ -3,30 +3,34 @@ package queries;
 import java.util.*;
 
 public class Query {
-	public ArrayList<String> terms;
-	public int id;
+	private final Map<String, Integer> terms;
+	private final int wordCount;
+	private final int id;
 
-	public Query() {
-		terms = new ArrayList<String>();
+	public Query(int id, Map<String, Integer> terms, int wordCount) {
+		this.id = id;
+		this.terms = terms;
+		this.wordCount = wordCount;
 	}
 	
 	public double tf(String term){
-		double count = 0;
-		for(String s : terms){
-			if(s.equals(term)){
-				count++;
-			}
-		}
-		double result = count/terms.size();
-		return result;
+		return terms.get(term) == null ? 0 : terms.get(term) * 1.0f / wordCount;
 	}
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for(String s : terms){
-			sb.append(s+ " ");
-		}
-		return sb.toString();
+		return "Query " + id;
+	}
+	
+	public Map<String, Integer> getTerms() {
+		return terms;
+	}
+	
+	public int getWordCount() {
+		return wordCount;
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

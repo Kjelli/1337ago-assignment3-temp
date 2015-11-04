@@ -1,28 +1,38 @@
 package processing;
-import queries.UnprocessedQuery;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import queries.RawQuery;
 import queries.Query;
 
 public class QueryProcessor {
 	private static String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+| ";
 
-	public QueryProcessor(){};
+	public QueryProcessor() {
+	};
 
 	// makes the unprocessed query into a processed one
-	public Query process(UnprocessedQuery rawQuery) {
+	public Query process(RawQuery rawQuery) {
 		TermProcessor termProc = TermProcessor.getInstance();
 		String[] terms = rawQuery.queries.split(regex);
 		String tempTerm;
-		Query query = new Query();
+		int wordCount = 0;
+		int id = 0;
+		Map<String, Integer> termMap = new HashMap<>();
 		for (int i = 0; i < terms.length - 1; i++) {
 			if (i == 3)
-				query.id = Integer.parseInt(terms[i]);
+				id = Integer.parseInt(terms[i]);
 			if (i > 3) {
 				tempTerm = termProc.process(terms[i]);
 				if (!tempTerm.equals("")) {
-					query.terms.add(tempTerm);
+					wordCount++;
+					termMap.put(tempTerm, termMap.get(tempTerm) == null ? 1
+							: termMap.get(tempTerm) + 1);
 				}
 			}
 		}
+		Query query = new Query(id, termMap, wordCount);
 		return query;
 	}
 }

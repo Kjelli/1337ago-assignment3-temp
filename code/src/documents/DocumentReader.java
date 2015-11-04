@@ -1,51 +1,40 @@
 package documents;
 
-
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DocumentReader {
-	Scanner scan;
 
-	public DocumentReader(){
+	public static Document read(File documentFile) throws IOException {
+		FileReader fr = new FileReader(documentFile);
+		BufferedReader br = new BufferedReader(fr);
+		String name = br.readLine();
+		Integer wordCount = Integer.parseInt(br.readLine());
+
+		Map<String, Integer> occurences = new HashMap<String, Integer>();
+
+		String entry = null;
+		while ((entry = br.readLine()) != null) {
+			String[] elements = entry.split("\t");
+			occurences.put(elements[0], Integer.parseInt(elements[1]));
+		}
+
+		return new Document(name, occurences, wordCount);
 	}
 
-	public ArrayList<UnprocessedDocument> readFile(File file){
-		try {
-			scan = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static List<Document> readAll(File documentFolder)
+			throws IOException {
+		List<Document> documents = new ArrayList<Document>();
+		File[] documentFiles = documentFolder.listFiles();
+		for (File documentFile : documentFiles) {
+			documents.add(read(documentFile));
 		}
-		ArrayList<UnprocessedDocument> docs = new ArrayList<UnprocessedDocument>();
-		int index = -1;
-		boolean htmlFlag = false;
-		while(scan.hasNext()){
-			String nxl = scan.nextLine();
-
-			if(nxl.equalsIgnoreCase("<DOC>")){
-				String unTrimmedName = scan.nextLine();
-				docs.add(new UnprocessedDocument(trimName(unTrimmedName)));
-				index++;
-			}
-			else if(nxl.equalsIgnoreCase("</DOCHDR>")){
-				nxl = scan.next();
-				htmlFlag = true;
-			}
-			else if(nxl.equalsIgnoreCase("</DOC>")){
-				htmlFlag = false;
-				docs.get(index).buildHtmlString();
-			}
-			if(htmlFlag){
-				docs.get(index).addLine(nxl);
-			}
-		}
-		return docs;
-	}
-	private String trimName(String name){
-		return name.replaceAll("<DOCNO>", "").replaceAll("</DOCNO>", "");
-		
+		return documents;
 	}
 }

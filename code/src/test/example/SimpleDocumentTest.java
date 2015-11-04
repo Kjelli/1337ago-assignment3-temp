@@ -29,24 +29,24 @@ public class SimpleDocumentTest {
 		 */
 
 		assertNotNull(d.getName());
-		assertNotNull(d.getOccurences());
+		assertNotNull(d.getOccurenceMap());
 
 		/*
 		 * Equality testing
 		 */
 
 		// Object and string
-		assertEquals(occurences, d.getOccurences());
+		assertEquals(occurences, d.getOccurenceMap());
 		assertEquals(name, d.getName());
 
 		// Integer
-		assertEquals(occurences.size(), d.getOccurences().size());
+		assertEquals(occurences.size(), d.getOccurenceMap().size());
 
 		/*
 		 * Condition testing
 		 */
 
-		assertTrue(d.getOccurences().size() == 2);
+		assertTrue(d.getOccurenceMap().size() == 2);
 		assertTrue(d.getName().length() > 0);
 	}
 }
