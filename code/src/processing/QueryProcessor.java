@@ -9,11 +9,8 @@ import queries.Query;
 public class QueryProcessor {
 	private static String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+| ";
 
-	public QueryProcessor() {
-	};
-
 	// makes the unprocessed query into a processed one
-	public Query process(RawQuery rawQuery) {
+	public static Query process(RawQuery rawQuery) {
 		TermProcessor termProc = TermProcessor.getInstance();
 		String[] terms = rawQuery.queries.split(regex);
 		String tempTerm;
