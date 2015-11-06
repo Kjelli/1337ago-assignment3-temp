@@ -70,7 +70,7 @@ public class TermProcessor {
 		if (isStopWord(term)) {
 			result = "";
 		} else {
-			result = PorterStemmer.getInstance().stemTerm(term);
+			result = Porter2Stemmer.getInstance().stemTerm(term);
 		}
 
 		return result;
