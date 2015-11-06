@@ -31,7 +31,7 @@ public class Porter2Stemmer {
 	 */
 	public String stemTerm(String term) {
 		stemmer.setCurrent(term);
-		System.out.println(stemmer.getCurrent());
+		stemmer.stem();
 		return new String(stemmer.getCurrent());
 	}
 
