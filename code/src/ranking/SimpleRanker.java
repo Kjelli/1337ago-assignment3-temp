@@ -36,7 +36,8 @@ public class SimpleRanker implements Ranker {
 			if (dom.getOccurences(entry.getKey()) > 0) {
 				idf = Math.log10(dom.getDocumentCount() * 1.0f
 						/ dom.getOccurences(entry.getKey()));
-				queryValues.add(queryTermTF * idf);
+				double product = queryTermTF * idf;
+				queryValues.add(product);
 			}
 		}
 
@@ -52,13 +53,16 @@ public class SimpleRanker implements Ranker {
 				double idf = Math.log10(dom.getDocumentCount() * 1.0f
 						/ dom.getOccurences(term));
 
-				documentValues.add(documentTermTF * idf);
+				double product = documentTermTF * idf;
+				if (Double.isNaN(product) || Double.isInfinite(product)) {
+					product = 0;
+				}
+				documentValues.add(product);
 			}
-			double result = 1-simstrat
-					.similarity(queryValues, documentValues);
-			if (Double.isNaN(result)) {
-				result = 0;
-			}
+
+
+			double result = simstrat.similarity(queryValues, documentValues);
+			
 			if (result > 0) {
 				rankMap.put(doc, result);
 			}
@@ -67,21 +71,21 @@ public class SimpleRanker implements Ranker {
 		rankMap = MapUtils.sort(rankMap, true);
 
 		// Get top 50 values;
-		int trim = rankMap.size() - 50;
+		int trim = 50;
 		int omitted = 0;
 		for (Iterator<Double> it = rankMap.values().iterator(); it.hasNext();) {
-			if (trim <= 0) {
-				break;
-			} else if (trim > 0) {
+			if (trim > 0) {
+				it.next();
+				trim--;
+			} else {
 				it.next();
 				it.remove();
-				trim--;
 				omitted++;
-			} 
+			}
 		}
 
-		DocumentQueryResult result = new DocumentQueryResult(q.getId(), rankMap,
-				omitted);
+		DocumentQueryResult result = new DocumentQueryResult(q.getId(),
+				rankMap, omitted);
 
 		return result;
 	}
