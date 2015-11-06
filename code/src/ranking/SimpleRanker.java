@@ -28,7 +28,7 @@ public class SimpleRanker implements Ranker {
 	public DocumentQueryResult bm25score(Query q, List<Document> documents){
 		List<Double> queryIdfs = new ArrayList<>();
 		double avgdl = 0;
-		double k = 1.5;
+		double k = 1.2;
 		double b = 0.75;
 		double wordcount = 0;
 
