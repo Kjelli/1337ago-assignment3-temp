@@ -30,7 +30,7 @@ public class Main {
 		 */
 
 //		 String queryFilename = "data/queries.xml";
-//		 String documentSourceFolder = "E:/csiro_corpus/csiro-corpus";
+//		 String documentSourceFolder = "csiro-corpus";
 //		 String preprocessedFolder = "output/preprocessed";
 //		 Preprocessor.process(queryFilename, documentSourceFolder, preprocessedFolder);
 //		 System.exit(0);
@@ -146,7 +146,7 @@ public class Main {
 		List<DocumentQueryResult> results = new ArrayList<>();
 		
 		for (Query query : queries) {
-			DocumentQueryResult qRes = ranker.rank(query, documents);
+			DocumentQueryResult qRes = ranker.bm25score(query, documents);
 			results.add(qRes);
 			System.out.println(query.getId() + " had " + qRes.getRankMap().size() + " results! (" + qRes.getOmittedCount() + " omitted)");
 		}

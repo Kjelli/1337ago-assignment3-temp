@@ -6,5 +6,6 @@ import queries.Query;
 import documents.Document;
 
 public interface Ranker {
-	DocumentQueryResult rank(Query q, List<Document> documents);
+	DocumentQueryResult bm25score(Query q, List<Document> documents);
+	//DocumentQueryResult rank(Query q, List<Document> documents);
 }
