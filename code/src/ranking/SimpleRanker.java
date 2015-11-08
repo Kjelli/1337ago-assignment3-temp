@@ -28,15 +28,16 @@ public class SimpleRanker implements Ranker {
 	public DocumentQueryResult bm25score(Query q, List<Document> documents){
 		List<Double> queryIdfs = new ArrayList<>();
 		double avgdl = 0;
-		double k = 1.2;
-		double b = 0.75;
+		double k = 1.0;
+		double b = 0.5;
+		double delta = 0.7;
 		double wordcount = 0;
 
 		for (Entry<String, Integer> entry : q.getTerms().entrySet()) {
 			double idf = 0;
 			if (dom.getOccurences(entry.getKey()) > 0) {
-				idf = Math.log10(dom.getDocumentCount() * 1.0f
-						/ dom.getOccurences(entry.getKey()));
+				idf =  Math.log10((1 + dom.getDocumentCount() * 1.0f)
+						/ (0.5 + dom.getOccurences(entry.getKey())));
 				queryIdfs.add(idf);
 			}
 		}
@@ -55,7 +56,7 @@ public class SimpleRanker implements Ranker {
 				double documentTermTF = doc.getOccurence(term) * 1.0f
 						/ doc.getWordCount();
 				if(index<queryIdfs.size()){
-					score += queryIdfs.get(index)*(documentTermTF*(k+1))/(documentTermTF+k)*(1-b+(b*(documents.size()/avgdl)));
+					score += queryIdfs.get(index)*(1+Math.log((1+Math.log((documentTermTF*(k+1))/(documentTermTF+k)*(1-b+(b*(documents.size()/avgdl)))+delta))));
 					index++;
 				}
 				if (Double.isNaN(score) || Double.isInfinite(score)) {
