@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class QueryReader {
 
 	public static Query read(File queryFile) throws IOException {

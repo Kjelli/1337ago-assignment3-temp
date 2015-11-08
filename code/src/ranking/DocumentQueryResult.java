@@ -3,7 +3,10 @@ package ranking;
 import java.util.Map;
 
 import documents.Document;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class DocumentQueryResult implements Comparable<DocumentQueryResult> {
 	private final int queryId;
 	private final Map<Document, Double> rankMap;

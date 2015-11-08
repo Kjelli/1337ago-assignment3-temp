@@ -1,7 +1,10 @@
 package queries;
 
 import java.util.HashMap;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class QueryVocabulary {
 	private HashMap<String, Boolean> vocabulary;
 

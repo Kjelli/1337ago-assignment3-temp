@@ -11,7 +11,10 @@ import java.util.Map.Entry;
 
 import ranking.DocumentQueryResult;
 import documents.Document;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class ResultWriter {
 
 	public static boolean writeAll(List<DocumentQueryResult> results,

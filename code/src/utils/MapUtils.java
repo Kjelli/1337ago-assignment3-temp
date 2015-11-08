@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import documents.Document;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class MapUtils {
 	// Sort a map by the values.
 	public static Map<Document, Double> sort(Map<Document, Double> map,

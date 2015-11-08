@@ -1,8 +1,12 @@
 package queries;
-	import java.util.*;
-	import java.io.File;
-	import java.io.FileNotFoundException;
-		
+
+import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+	/**
+	 * 
+	 * @author 1337ago
+	 */
 public class RawQueryReader {
 	public RawQueryReader(){};
 	public List<RawQuery> readQueries(File file)throws FileNotFoundException{

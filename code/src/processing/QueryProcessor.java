@@ -5,7 +5,10 @@ import java.util.Map;
 
 import queries.RawQuery;
 import queries.Query;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class QueryProcessor {
 	private static String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+| ";
 

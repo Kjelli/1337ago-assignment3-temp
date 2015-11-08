@@ -1,9 +1,7 @@
 package documents;
-
-
 /**
  * 
- * @author Fredrik Wæhre Severinsen
+ * @author 1337ago
  */
 public class RawDocument {
 	String name;

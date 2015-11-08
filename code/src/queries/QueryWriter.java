@@ -6,7 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class QueryWriter {
 
 	public static void writeAll(List<Query> queries, String outputFolder)

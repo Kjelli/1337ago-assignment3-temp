@@ -1,7 +1,10 @@
 package queries;
 
 import java.util.*;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class Query {
 	private final Map<String, Integer> terms;
 	private final int wordCount;

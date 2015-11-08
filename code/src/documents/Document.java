@@ -6,7 +6,7 @@ import java.util.Map;
  * Class representing a processed document, containing the name of the document,
  * and the occurences of the terms within the document
  * 
- * @author Kjell Arne Hellum
+ * @author 1337ago
  *
  */
 

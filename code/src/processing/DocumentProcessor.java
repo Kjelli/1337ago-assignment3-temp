@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -13,7 +12,10 @@ import whitelist.NaiveWhitelist;
 import whitelist.Whitelist;
 import documents.Document;
 import documents.RawDocument;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class DocumentProcessor {
 
 	private static final String regex = "[ \\\\\\-\\\n\r\"\t<>+*”“’&©{}\\[\\]%~#=$•·—– ,.?!'|();:/]+";

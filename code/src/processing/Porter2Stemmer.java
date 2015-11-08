@@ -1,11 +1,7 @@
 package processing;
-
-import stemmer.SnowballStemmer;
-
 /**
  * 
- * @author Kjell Arne Hellum & Fredrik Wæhre Severinsen
- *
+ * @author 1337ago
  */
 public class Porter2Stemmer {
 

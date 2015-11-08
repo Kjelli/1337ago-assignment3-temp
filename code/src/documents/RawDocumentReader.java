@@ -1,6 +1,8 @@
 package documents;
-
-
+/**
+ * 
+ * @author 1337ago
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

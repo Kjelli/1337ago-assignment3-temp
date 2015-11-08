@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class DocumentReader {
 
 	public static Document read(File documentFile) throws IOException {

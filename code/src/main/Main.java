@@ -14,11 +14,13 @@ import queries.QueryReader;
 import ranking.DocumentQueryResult;
 import ranking.Ranker;
 import ranking.SimpleRanker;
-import similarity.CosineSimilarity;
 import documents.Document;
 import documents.DocumentOccurenceMap;
 import documents.DocumentReader;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class Main {
 
 	public static void main(String[] args) {
@@ -29,11 +31,11 @@ public class Main {
 		 * correct.
 		 */
 
-//		 String queryFilename = "data/queries.xml";
-//		 String documentSourceFolder = "csiro-corpus";
-//		 String preprocessedFolder = "output/preprocessed";
-//		 Preprocessor.process(queryFilename, documentSourceFolder, preprocessedFolder);
-//		 System.exit(0);
+		String queryFilename = "data/queries.xml";
+		String documentSourceFolder = "csiro-corpus";
+		String preprocessedFolder = "output/preprocessed";
+		Preprocessor.process(queryFilename, documentSourceFolder, preprocessedFolder);
+		//		 System.exit(0);
 		/*
 		 * Operate the preprocessed data
 		 */
@@ -45,30 +47,30 @@ public class Main {
 		String ppQueriesFoldername = ppParentFolder + "/queries";
 		String documentOccurenceMapFilename = ppParentFolder
 				+ "/document_occurence.txt";
-		
+
 		String resultsFolder = outputFolder+"/results";
 
 		File ppDocumentsFolder = new File(ppDocumentsFoldername);
 		if (!ppDocumentsFolder.exists()) {
 			System.err
-					.println("The folder containing preprocessed documents specified "
-							+ ppDocumentsFoldername + " does not exist!");
+			.println("The folder containing preprocessed documents specified "
+					+ ppDocumentsFoldername + " does not exist!");
 			System.exit(1);
 		}
 
 		File ppQueriesFolder = new File(ppQueriesFoldername);
 		if (!ppQueriesFolder.exists()) {
 			System.err
-					.println("The folder containing preprocessed queries specified "
-							+ ppQueriesFoldername + " does not exist!");
+			.println("The folder containing preprocessed queries specified "
+					+ ppQueriesFoldername + " does not exist!");
 			System.exit(1);
 		}
 
 		File documentOccurenceMapFile = new File(documentOccurenceMapFilename);
 		if (!documentOccurenceMapFile.exists()) {
 			System.err
-					.println("The folder containing the document occurence map specified "
-							+ documentOccurenceMapFilename + " does not exist!");
+			.println("The folder containing the document occurence map specified "
+					+ documentOccurenceMapFilename + " does not exist!");
 			System.exit(1);
 		}
 
@@ -141,18 +143,18 @@ public class Main {
 		System.out.println("Number of documents: " + documents.size());
 
 		// Run queries on the documents
-		Ranker ranker = new SimpleRanker(map, new CosineSimilarity());
+		Ranker ranker = new SimpleRanker(map);
 
 		List<DocumentQueryResult> results = new ArrayList<>();
-		
+
 		for (Query query : queries) {
 			DocumentQueryResult qRes = ranker.bm25score(query, documents);
 			results.add(qRes);
 			System.out.println(query.getId() + " had " + qRes.getRankMap().size() + " results! (" + qRes.getOmittedCount() + " omitted)");
 		}
-		
+
 		Collections.sort(results);
-		
+
 		System.out.println("Writing results to file ...");
 		ResultWriter.writeAll(results, resultsFolder);
 		System.out.println("Done writing results to file!");
@@ -162,138 +164,4 @@ public class Main {
 				"\n\nCompleted at time: %s.\n\nRunning for %.2f seconds.",
 				new Date().toString(), timeElapsed);
 	}
-	// public static void main(String[] args) throws FileNotFoundException {
-	// System.out.println("Started at time: " + new Date());
-	//
-	// QueryReader qr = new QueryReader();
-	// QueryProcessor queryProc = new QueryProcessor();
-	//
-	// // Read file and process queries
-	// System.out.println("Reading file and processing queries");
-	//
-	// List<UnprocessedQuery> rawQueries = qr.readQuery(new File(
-	// "data/queries.xml"));
-	// List<Query> queries = new ArrayList<Query>();
-	//
-	// QueryVocabulary vocabulary = new QueryVocabulary();
-	//
-	// for (UnprocessedQuery rawQuery : rawQueries) {
-	// Query temp = queryProc.process(rawQuery);
-	// queries.add(temp);
-	// vocabulary.addQueryTerms(temp);
-	// }
-	//
-	// Whitelist whitelist = new QueryWhitelist(vocabulary);
-	//
-	// DocumentProcessor.getInstance().setWhitelist(whitelist);
-	//
-	// File[] files = new File("E:/csiro_corpus/csiro-corpus").listFiles();
-	//
-	// UnprocessedDocumentReader r = new UnprocessedDocumentReader();
-	// DocumentTermMatrix dtm = new DocumentTermMatrix();
-	// System.out.println("Reading file and processing docs");
-	// int maxDocuments = -1;
-	// int docCounter = 0;
-	// int maxDotsInLine = 5;
-	// int dotCounter = 0;
-	// int fileCounter = 25;
-	// int maxFiles = -1;
-	//
-	// // Read files and process docs
-	// HashMap<String, Integer> documentOccurences = new HashMap<>();
-	// String outputfolder = "output/preprocessed";
-	//
-	// for (File file : files) {
-	// fileCounter++;
-	// System.out.print(".");
-	// if (++dotCounter >= maxDotsInLine) {
-	// System.out.printf("(%.2f%% complete)\n", (fileCounter * 100.0f)
-	// / files.length);
-	// dotCounter = 0;
-	// }
-	// ArrayList<UnprocessedDocument> docs = r.readFile(file);
-	// ArrayList<Document> pDocs = new ArrayList<>();
-	// for (UnprocessedDocument unDoc : docs) {
-	// Document doc = DocumentProcessor.getInstance().process(unDoc);
-	// if (doc == null) {
-	// continue;
-	// }
-	// for (String term : doc.getOccurences().keySet()) {
-	// documentOccurences
-	// .put(term,
-	// (documentOccurences.get(term) != null) ? documentOccurences
-	// .get(term) + 1 : 1);
-	// }
-	//
-	// // if (doc != null) {
-	// // dtm.addDocument(doc);
-	// // }
-	// pDocs.add(doc);
-	// if (maxDocuments != -1 && docCounter++ >= maxDocuments) {
-	// break;
-	// }
-	//
-	// }
-	// try {
-	// DocumentWriter.writeAll(pDocs, outputfolder);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// System.exit(1);
-	// }
-	//
-	// if (maxFiles != -1 && fileCounter >= maxFiles) {
-	// break;
-	// }
-	// }
-	//
-	// try {
-	// writeDocumentTermOccurences(documentOccurences, outputfolder);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// System.exit(0);
-	// }
-	//
-	// System.out.println("\n\n Done reading and processing documents.");
-	//
-	// // Calculate tf idf
-	// System.out.println("Calculating tf idf map");
-	// TFIDFDocumentTermMatrix matrix = dtm.generateTFIDFMap();
-	//
-	// SimilarityStrategy<Double> strat = new CosineSimilarity();
-	//
-	// // Setting up printing
-	// PrintWriter out = null;
-	// try {
-	// out = new PrintWriter(new BufferedWriter(new FileWriter(
-	// "output/results("
-	// + new Date().toString().toLowerCase()
-	// .replace(' ', '_').replace(':', '-')
-	// + ").txt", true)));
-	// } catch (IOException io) {
-	// io.printStackTrace();
-	// }
-	//
-	// // Evaluating queries on DocumentTermMatrix
-	// System.out.println("Evaluating queries on documents");
-	// for (Query query : queries) {
-	// DocumentQueryResult result = matrix.runQuery(query, strat);
-	// System.out.println("Query : " + query + ", "
-	// + result.getRankMap().size() + " results. ("
-	// + result.getOmittedCount() + " omitted)");
-	// if (result.getRankMap().size() > 0) {
-	// for (Entry<Document, Double> entry : result.getRankMap()
-	// .entrySet()) {
-	// if (out != null) {
-	// out.println((query.id + " Q0 " + entry.getKey() + " " + entry
-	// .getValue()));
-	// }
-	// }
-	// }
-	// }
-	// if (out != null) {
-	// out.close();
-	// }
-	// System.out.println("\n\nCompleted at time: " + new Date());
-	// }
-
 }

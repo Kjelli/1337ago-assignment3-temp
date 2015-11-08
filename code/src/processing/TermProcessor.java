@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * TODO To be implemented.
  * 
- * @author Kjell Arne Hellum
+ * @author 1337ago
  * 
  *         Author note: Maybe the documentprocessor and queryprocessor should
  *         use the same strategy for processing? That is, the stemming and

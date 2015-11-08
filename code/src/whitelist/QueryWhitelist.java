@@ -1,7 +1,10 @@
 package whitelist;
 
 import queries.QueryVocabulary;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class QueryWhitelist implements Whitelist {
 
 	private final QueryVocabulary vocabulary;

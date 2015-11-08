@@ -1,5 +1,8 @@
 package whitelist;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class NaiveWhitelist implements Whitelist{
 
 	@Override

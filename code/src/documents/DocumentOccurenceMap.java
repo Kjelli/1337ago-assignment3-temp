@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 /**
  * Mapping of the terms and the number of documents they appear in.
  * 
- * @author Kjell Arne Hellum
+ * @author 1337ago
  *
  */
 public class DocumentOccurenceMap {

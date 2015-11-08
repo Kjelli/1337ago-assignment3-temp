@@ -22,7 +22,10 @@ import documents.Document;
 import documents.DocumentWriter;
 import documents.RawDocument;
 import documents.RawDocumentReader;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class Preprocessor {
 
 	public static boolean process(String queryFilename,

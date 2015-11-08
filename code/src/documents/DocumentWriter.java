@@ -4,10 +4,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
-
+/**
+ * 
+ * @author 1337ago
+ */
 public class DocumentWriter {
 
 	public static void write(Document doc, String outputfolder)
@@ -24,8 +26,6 @@ public class DocumentWriter {
 			writer.write(entry.getKey() + "\t" + entry.getValue() + "\r\n");
 		}
 		writer.close();
-//		System.out.println("Written " + doc.getName() + " to file at "
-//				+ new Date() + ".");
 	}
 
 	public static void writeAll(List<Document> documents, String outputFolder)
